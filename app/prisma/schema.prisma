@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model University {
+  id          String    @id @default(cuid())
+  name        String
+  nameZh      String?
+  slug        String    @unique
+  city        String    @default("")
+  province    String    @default("")
+  ranking     Int?
+  logoUrl     String?
+  coverUrl    String?
+  website     String?
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  programs    Program[]
+}
+
+model Program {
+  id                        String         @id @default(cuid())
+  universityId              String
+  field                     String         @default("")
+  programName               String
+  degree                    Degree
+  teachingLanguage          Language
+  programCode               String         @default("")
+  intakeSeason              String         @default("September")
+  intakeYear                Int?
+  applicationDeadline       DateTime?
+  programDuration           String         @default("")
+  originalTuition           Int            @default(0)
+  tuitionAfterScholarship   Int?
+  accommodationFee          Int?
+  accommodationSingleFee    Int?
+  accommodationDoubleFee    Int?
+  registrationFee           Int?
+  applicationFee            Int?
+  serviceFee                Int?
+  hasCscaScore              Boolean        @default(false)
+  minAge                    Int?
+  maxAge                    Int?
+  acceptsMinors             Boolean        @default(false)
+  locationRestrictions      String[]
+  minGpaScore               Float?
+  minIeltsScore             Float?
+  minToeflScore             Int?
+  otherScoreReqs            String?
+  requiresPassportPhoto     Boolean        @default(true)
+  requiresPassportId        Boolean        @default(true)
+  requiresTranscripts       Boolean        @default(true)
+  requiresHighestDegree     Boolean        @default(true)
+  requiresPhysicalExam      Boolean        @default(false)
+  requiresNonCriminalRecord Boolean        @default(false)
+  requiresEnglishCert       Boolean        @default(false)
+  requiresApplicationForm   Boolean        @default(true)
+  requiresStudyPlan         Boolean        @default(true)
+  requiresRecommendations   Boolean        @default(false)
+  recommendationLetterCount Int            @default(0)
+  sourceUrl                 String         @default("")
+  status                    String         @default("complete")
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  applications              Application[]
+  university                University     @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  savedBy                   SavedProgram[]
+  scholarships              Scholarship[]
+
+  @@unique([universityId, programName, degree, teachingLanguage])
+  @@index([universityId])
+  @@index([field])
+  @@index([degree])
+  @@index([teachingLanguage])
+}
+
+model Scholarship {
+  id              String          @id @default(cuid())
+  programId       String
+  type            ScholarshipType
+  name            String
+  category        String          @default("")
+  duration        String          @default("")
+  coversTuition   Boolean         @default(false)
+  livingAllowance Int?
+  policyDetails   String?
+  active          Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  program         Program         @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@unique([programId, type, name])
+  @@index([programId])
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  country       String?
+  supabaseId    String         @unique
+  createdAt     DateTime       @default(now())
+  applications  Application[]
+  savedPrograms SavedProgram[]
+}
+
+model Application {
+  id                   String            @id @default(cuid())
+  userId               String
+  programId            String
+  status               ApplicationStatus @default(DRAFT)
+  currentStep          Int               @default(1)
+  notes                String?
+  passportPhotoUrl     String?
+  passportIdUrl        String?
+  transcriptsUrl       String?
+  highestDegreeUrl     String?
+  physicalExamUrl      String?
+  nonCriminalRecordUrl String?
+  englishCertUrl       String?
+  applicationFormUrl   String?
+  studyPlanUrl         String?
+  recommendationUrls   String[]
+  submittedAt          DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  program              Program           @relation(fields: [programId], references: [id])
+  user                 User              @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([programId])
+}
+
+model SavedProgram {
+  id        String  @id @default(cuid())
+  userId    String
+  programId String
+  program   Program @relation(fields: [programId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, programId])
+}
+
+enum Degree {
+  NON_DEGREE
+  ASSOCIATE
+  DIPLOMA
+  BACHELOR
+  MASTER
+  DOCTORAL
+  STUDY_TOUR
+  JUNIOR_COLLEGE_UPGRADE
+}
+
+enum Language {
+  ENGLISH
+  CHINESE
+  RUSSIAN
+  BILINGUAL
+}
+
+enum ScholarshipType {
+  CSC
+  PROVINCIAL
+  UNIVERSITY
+  SILK_ROAD
+  OTHER
+}
+
+enum ApplicationStatus {
+  DRAFT
+  IN_PROGRESS
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WAITLISTED
+}

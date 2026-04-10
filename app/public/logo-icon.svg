@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Graduation cap / shield shape -->
+  <rect width="32" height="32" rx="8" fill="url(#grad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#36B489"/>
+      <stop offset="100%" stop-color="#38ACCF"/>
+    </linearGradient>
+  </defs>
+  <!-- Graduation cap shape -->
+  <polygon points="16,8 28,13 16,18 4,13" fill="white" opacity="0.95"/>
+  <rect x="22" y="13" width="2" height="7" rx="1" fill="white" opacity="0.7"/>
+  <ellipse cx="23" cy="20.5" rx="2.5" ry="1.5" fill="white" opacity="0.7"/>
+  <path d="M9 15 L9 20 Q16 23.5 23 20 L23 15" fill="white" opacity="0.15"/>
+</svg>

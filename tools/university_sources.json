@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Example University",
+    "slug": "example-university",
+    "city": "Beijing",
+    "province": "Beijing",
+    "website": "https://example-university.edu.cn",
+    "programsUrl": "https://example-university.edu.cn/international/programs",
+    "scrapeMethod": "playwright",
+    "notes": "Replace with real university URLs"
+  }
+]

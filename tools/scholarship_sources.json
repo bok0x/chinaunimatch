@@ -1,0 +1,26 @@
+[
+  {
+    "type": "CSC",
+    "name": "Chinese Government Scholarship",
+    "url": "https://www.csc.edu.cn/chuguo",
+    "scrapeMethod": "playwright",
+    "frequency": "monthly",
+    "notes": "Main CSC scholarship portal. Requires Playwright for JS rendering."
+  },
+  {
+    "type": "SILK_ROAD",
+    "name": "Silk Road Scholarship",
+    "url": "https://www.csc.edu.cn/chuguo/s/1500",
+    "scrapeMethod": "playwright",
+    "frequency": "quarterly",
+    "notes": "For students from Belt and Road Initiative countries."
+  },
+  {
+    "type": "UNIVERSITY",
+    "name": "ScholarshipChina Listings",
+    "url": "https://www.scholarshipchina.com",
+    "scrapeMethod": "playwright",
+    "frequency": "weekly",
+    "notes": "Primary data source. Nuxt.js SPA — intercept API calls for structured data."
+  }
+]

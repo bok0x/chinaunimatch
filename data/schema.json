@@ -1,0 +1,99 @@
+{
+  "_description": "Canonical data schema for ChinaUniMatch. All files in /data/ conform to this structure.",
+  "_source_of_truth": "https://www.scholarshipchina.com (programs) + https://www.shanghairanking.com (rankings)",
+  "_updated": "2026-04-10",
+
+  "university": {
+    "_file": "data/universities/<slug>.json",
+    "_description": "One file per university. Contains the university metadata and all its programs.",
+    "universityName": "string — English name",
+    "universitySlug": "string — URL-safe kebab-case identifier",
+    "city": "string",
+    "province": "string",
+    "programCount": "integer",
+    "arwuWorldRank": "string — e.g. '1', '101-150', or '' if unranked",
+    "arwuNationalRank": "string — rank within China",
+    "arwuTotalScore": "string — ARWU composite score",
+    "arwuYear": "integer — year of the ranking",
+    "exportedAt": "ISO 8601 datetime",
+    "programs": ["array of Program objects — see below"]
+  },
+
+  "program": {
+    "_file": "data/programs/all_programs.json (flat list) or nested inside university file",
+    "universityName": "string",
+    "universitySlug": "string",
+    "city": "string",
+    "province": "string",
+    "field": "string — field of study",
+    "programName": "string",
+    "degree": "BACHELOR | MASTER | PHD | DIPLOMA",
+    "teachingLanguage": "ENGLISH | CHINESE | BILINGUAL",
+    "intakeSeason": "string — e.g. 'September'",
+    "applicationDeadline": "string | null — ISO date or formatted string",
+    "programDuration": "string — e.g. '4 years'",
+    "originalTuition": "integer — CNY per year",
+    "tuitionAfterScholarship": "integer | null — CNY per year after scholarship discount",
+    "accommodationFee": "integer | null — CNY per year",
+    "registrationFee": "integer | null — CNY (one-time)",
+    "applicationFee": "integer | null — CNY (one-time, platform fee)",
+    "serviceFee": "integer | null — CNY (one-time, service fee)",
+    "minAge": "integer | null",
+    "maxAge": "integer | null",
+    "acceptsMinors": "boolean",
+    "locationRestrictions": "string[] — list of excluded nationalities/regions",
+    "minGpaScore": "float | null",
+    "minIeltsScore": "float | null",
+    "minToeflScore": "integer | null",
+    "requiresPassportPhoto": "boolean",
+    "requiresPassportId": "boolean",
+    "requiresTranscripts": "boolean",
+    "requiresHighestDegree": "boolean",
+    "requiresPhysicalExam": "boolean — physical exam form (JW201/JW202 equivalent)",
+    "requiresNonCriminalRecord": "boolean — police clearance certificate",
+    "requiresEnglishCert": "boolean — IELTS/TOEFL/equivalent",
+    "requiresApplicationForm": "boolean",
+    "requiresStudyPlan": "boolean — personal statement / study plan >1000 words",
+    "requiresRecommendations": "boolean",
+    "recommendationLetterCount": "integer — typically 2 for postgrad",
+    "scholarships": ["array of Scholarship objects"],
+    "sourceUrl": "string — canonical ScholarshipChina URL",
+    "status": "complete | incomplete"
+  },
+
+  "scholarship": {
+    "type": "CSC | PROVINCIAL | UNIVERSITY | SILK_ROAD | OTHER",
+    "name": "string — e.g. 'Chinese Government Scholarship'",
+    "duration": "string — e.g. '4 years'",
+    "coversTuition": "boolean",
+    "livingAllowance": "integer | null — CNY per month",
+    "policyDetails": "string — human-readable policy notes"
+  },
+
+  "ranking": {
+    "_file": "data/rankings/arwu_YEAR.json",
+    "scraped_at": "ISO 8601 datetime",
+    "source": "https://www.shanghairanking.com",
+    "year": "integer",
+    "total": "integer — count of universities in file",
+    "universities": [
+      {
+        "worldRank": "string — e.g. '1' or '101-150'",
+        "universityName": "string — English name",
+        "universityNameZh": "string — Chinese name (if available)",
+        "country": "string",
+        "city": "string",
+        "nationalRank": "string",
+        "totalScore": "string",
+        "alumni": "string — Alumni of an institution winning Nobel Prizes and Fields Medals",
+        "award": "string — Staff of an institution winning Nobel Prizes and Fields Medals",
+        "hici": "string — Highly Cited Researchers",
+        "ns": "string — Papers in Nature & Science",
+        "pub": "string — Papers indexed in Science Citation Index-expanded",
+        "pcp": "string — Per Capita Academic Performance",
+        "website": "string",
+        "source": "shanghairanking.com/api or shanghairanking.com/html"
+      }
+    ]
+  }
+}

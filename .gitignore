@@ -1,0 +1,30 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Google OAuth
+credentials.json
+token.json
+
+# WAT temporaries
+.tmp/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
