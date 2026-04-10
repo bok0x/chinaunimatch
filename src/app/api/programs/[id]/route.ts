@@ -6,7 +6,7 @@ async function loadDataPrograms(): Promise<Program[] | null> {
   try {
     const { readFileSync } = await import("fs");
     const { join } = await import("path");
-    const file = join(process.cwd(), "..", "data", "programs", "all_programs.json");
+    const file = join(process.cwd(), "data", "programs", "all_programs.json");
     const raw = readFileSync(file, "utf-8");
     const parsed = JSON.parse(raw);
     const items: Program[] = (parsed.programs ?? parsed) as Program[];
