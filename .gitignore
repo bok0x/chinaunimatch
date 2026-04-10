@@ -23,6 +23,13 @@ node_modules/
 .next/
 out/
 build/
+.vercel/
+
+# Env (real values — never commit)
+.env
+.env.local
+.env.*.local
+app/.env
 
 # Misc
 .DS_Store
